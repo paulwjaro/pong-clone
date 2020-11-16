@@ -1,39 +1,57 @@
-from turtle import Turtle, Screen
-from paddles import Paddle
+from turtle import Turtle
 
 
-class GameScreen:
+class GUI(Turtle):
     def __init__(self):
-        self.screen = Screen()
-        self.screen.setup(width=1000, height=700)
-        self.running = True
-        self.screen.bgcolor("black")
-        self.id = None
+        super().__init__()
+        self.hideturtle()
+        self.penup()
+        self.color("white")
+        self.setheading(270)
+        self.goto(0, 300)
+        self.pensize(6)
+        self.pendown()
+        self.pen_position = "down"
 
-    def screen_setup(self):
-        self.id = Turtle()
-        line = self.id
-        line.hideturtle()
-        line.width(4)
-        line.penup()
-        line.color("white")
-        line.speed("fastest")
-        line.setheading(270)
-        line.goto(0, 350)
-        line_up = True
-        for i in range(int(700 / 20)):
-            if line_up:
-                line.pendown()
-                line_up = False
+    def create_gui(self):
+        for i in range(int(600/20)):
+            self.forward(20)
+            if self.pen_position == "down":
+                self.penup()
+                self.pen_position = "up"
             else:
-                line.penup()
-                line_up = True
-            line.goto(0, line.ycor() - 20)
+                self.pendown()
+                self.pen_position = "down"
 
-    def screen_close(self):
-        self.screen.exitonclick()
 
-    def init_game(self):
-        self.screen_setup()
-        self.paddle1 = Paddle()
 
+
+
+
+
+class Scoreboard():
+    def __init__(self):
+        self.player1_score = 0
+        self.player2_score = 0
+        self.y_pos = 200
+        self.x_pos = 200
+        self.score1 = Turtle()
+        self.score1.penup()
+        self.score1.color("white")
+        self.score1.hideturtle()
+        self.score1.goto(self.x_pos, self.y_pos)
+        self.score2 = Turtle()
+        self.score2.penup()
+        self.score2.color("white")
+        self.score2.hideturtle()
+        self.score2.goto(-self.x_pos, self.y_pos)
+
+    def write_score(self):
+        self.score1.write(self.player1_score, False, "center", ("arial", 40, "normal"))
+        self.score2.write(self.player2_score, False, "center", ("arial", 40, "normal"))
+
+    def update_score(self, player1):
+        if player1:
+            self.player1_score += 1
+        else:
+            self.player2_score += 1
